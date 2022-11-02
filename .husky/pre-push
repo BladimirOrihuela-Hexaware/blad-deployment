@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Prevents force-pushing to main
+
+echo -e "===\n>> Talenavi Pre-push Hook: Checking branch name"
+
+BRANCH=`git rev-parse --abbrev-ref HEAD`
+PROTECTED_BRANCHES="^(main|develop)"
+
+if [[ "$BRANCH" =~ $PROTECTED_BRANCHES ]]
+then
+  echo -e "\n🚫 Cannot push to remote $BRANCH branch, please create your own branch develop/my-branch-name"
+fi
+
+echo -e ">> Finish checking branch name\n==="
+
+exit 0
