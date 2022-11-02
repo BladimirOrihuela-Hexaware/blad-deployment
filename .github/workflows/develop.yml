@@ -1,0 +1,25 @@
+name: Test Code
+
+on:
+  pull_request:
+  push:
+    branches:
+      - develop/*
+
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Test Lint
+        run: npm run lint
+
+      - name: Test coverage
+        run: npm run test
