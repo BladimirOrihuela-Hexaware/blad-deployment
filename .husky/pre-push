@@ -10,7 +10,7 @@ PROTECTED_BRANCHES="^(main|develop)"
 
 if [[ "$BRANCH" =~ $PROTECTED_BRANCHES ]]
 then
-  echo -e "\n🚫 Cannot push to remote $BRANCH branch, please create your own branch develop/my-branch-name"
+  echo -e "\n🚫 Cannot push to remote $BRANCH branch, please create your own branch develop/my-branch-name" && exit 1
 fi
 
 echo -e ">> Finish checking branch name\n==="
