@@ -44,6 +44,8 @@ jobs:
 
   QA-deploy:
     needs: Validate-Dev-Changes
+    environment:
+      name: QA
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -57,11 +59,14 @@ jobs:
       - name: Run test
         run: npm run test
 
+      - name: Set Homepage
+        run: npm run setHomepage
+
       - name: Build
         run: CI=false npm run build
 
       - name: deploy to QA env --> Netlify
-        run: npm run deploy:netlify
+        run: netlify deploy --prod --auth ${{ secrets.NETLIFY_TOKEN }} --site ${{ secrets.SITE_ID }}
 
   PR-Management:
     needs: QA-deploy
@@ -76,9 +81,19 @@ jobs:
         id: get-branch
         uses: ypicard/get-branch-name-github-action@v1
 
+      - name: Display formated branch name
+        run: echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
+
+      - name: Set env
+        id: set-branch-name
+        run: echo "My_Branch=$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')" >> $GITHUB_OUTPUT
+
+      - name: get env name
+        run: echo $My_Branch
+
       - name: Create PR
         uses: medlypharmacy/create-pr-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }}
+          HEAD_BRANCH: ${{ steps.set-branch-name.outputs.My_Branch }}
           BASE_BRANCH: main
