@@ -25,25 +25,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Validate-Dev-Changes:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
+  # Validate-Dev-Changes:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "16"
 
-      - name: Install Dependencies
-        run: npm install
+  #     - name: Install Dependencies
+  #       run: npm install
 
-      - name: Test Lint
-        run: npm run lint
+  #     - name: Test Lint
+  #       run: npm run lint
 
-      - name: Test coverage
-        run: npm run test
+  #     - name: Test coverage
+  #       run: npm run test
 
   QA-deploy:
-    needs: Validate-Dev-Changes
+    # needs: Validate-Dev-Changes
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -54,13 +54,16 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run test
-        run: npm run test
+      # - name: Run test
+      #   run: npm run test
 
       - name: Build
         run: CI=false npm run build
 
       - name: deploy to QA env --> Netlify
+        env:
+          NETLIFY_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: npm run deploy:netlify
 
   PR-Management:
