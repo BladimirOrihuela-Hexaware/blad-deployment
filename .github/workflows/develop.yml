@@ -6,8 +6,23 @@ on:
     branches-ignore:
       - main
 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+env:
+  CI: false
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
-  test-code:
+  QA-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -15,27 +30,32 @@ jobs:
         with:
           node-version: "16"
 
-      # - name: Install Dependencies
-      #   run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-      # - name: Test Lint
-      #   run: npm run lint
+      - name: Build
+        run: CI=false npm run build
 
-      # - name: Test coverage
+      - name: deploy
+        run: npm run deploy:netlify
+      # - name: Run test
       #   run: npm run test
 
-      - name: Use action
-        id: get-branch
-        uses: ypicard/get-branch-name-github-action@v1
+      # Sets the branch name as environment variable
+      # - uses: nelonoel/branch-name@v1.0.1
+      # - name: deploy to netlify
+      #   id: deploy-netlify
+      #   uses: jsmrcaga/action-netlify-deploy@master
+      #   with:
+      #     NETLIFY_AUTH_TOKEN: TvSn2ki9oV2tPk5OsOSbLa3WIaHzpBx9UFbiXg94FaI
+      #     NETLIFY_SITE_ID: 5b9c80b4-ce4b-44a7-b2f1-287f78253288
 
-      # - name: Set env
-      #   id: set-branch-name
-      #   run: echo "My_Branch=$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')" >> $GITHUB_OUTPUT
-
-      # - name: Create PR
-      #   uses: medlypharmacy/create-pr-action@main
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }}
-      #     # HEAD_BRANCH: ${{ steps.set-branch-name.outputs.My_Branch }}
-      #     BASE_BRANCH: main
+      #   # Creates a status check with link to preview
+      # - name: Status check
+      #   uses: Sibz/github-status-action@v1.1.1
+      #   with:
+      #     authToken: ${{ secrets.GITHUB_TOKEN }}
+      #     context: Netlify preview
+      #     state: success
+      # - name: print url
+      #   run: echo ${{ steps.deploy-netlify.outputs.NETLIFY_LIVE_URL }}
