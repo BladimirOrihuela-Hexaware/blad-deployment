@@ -1,4 +1,4 @@
-name: Deploy app to github pages
+name: Deploy to QA env
 
 on:
   pull_request:
