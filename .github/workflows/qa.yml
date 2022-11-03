@@ -64,7 +64,7 @@ jobs:
         run: npm run setHomepage
 
       - name: deploy to QA env --> Netlify
-        run: netlify deploy --prod --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --site ${{ secrets.NETLIFY_SITE_ID }}
+        run: netlify deploy --prod --auth ${{ secrets.NETLIFY_TOKEN }} --site ${{ secrets.SITE_ID }}
 
   PR-Management:
     needs: QA-deploy
