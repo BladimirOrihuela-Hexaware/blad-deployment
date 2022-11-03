@@ -12,7 +12,8 @@ permissions:
   contents: read
   pages: write
   id-token: write
-
+env:
+  CI: false
 # Allow one concurrent deployment
 concurrency:
   group: "pages"
