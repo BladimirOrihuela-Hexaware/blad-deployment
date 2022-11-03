@@ -29,7 +29,6 @@ jobs:
         uses: ypicard/get-branch-name-github-action@v1
 
       - name: Display formated branch name
-        env: BRANCH_NAME
         run: echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
 
       - name: Set env
