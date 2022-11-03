@@ -29,10 +29,14 @@ jobs:
         uses: ypicard/get-branch-name-github-action@v1
 
       - name: Display formated branch name
+        env: BRANCH_NAME
         run: echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
 
-      - name: Display branch name using env
-        run: echo ${{ env.BRANCH_NAME }}
+      - name: Set env
+        run: echo "My_Branch=${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'"
+
+      - name: get env name
+        run: echo $My_Branch
 
       - name: Create PR
         uses: medlypharmacy/create-pr-action@main
