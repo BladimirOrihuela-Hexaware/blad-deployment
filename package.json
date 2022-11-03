@@ -24,7 +24,7 @@
     "lint": "eslint --cache . --ext ts,tsx",
     "eject": "react-scripts eject",
     "prepare": "husky install",
-    "deploy:netlify": "netlify deploy --prod",
+    "deploy:netlify": "netlify deploy --prod --auth TvSn2ki9oV2tPk5OsOSbLa3WIaHzpBx9UFbiXg94FaI --site 5b9c80b4-ce4b-44a7-b2f1-287f78253288",
     "init:netlify": "netlify init"
   },
   "eslintConfig": {

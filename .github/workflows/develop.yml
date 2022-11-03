@@ -36,8 +36,8 @@ jobs:
       - name: Build
         run: CI=false npm run build
 
-      - name: netlify init
-        run: npm run init:netlify
+      # - name: netlify init
+      #   run: npm run init:netlify
       - name: deploy
         run: npm run deploy:netlify
       # - name: Run test
