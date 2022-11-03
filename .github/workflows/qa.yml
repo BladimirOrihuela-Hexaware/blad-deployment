@@ -60,8 +60,11 @@ jobs:
       - name: Build
         run: CI=false npm run build
 
+      - name: Set Homepage
+        run: npm run setHomepage
+
       - name: deploy to QA env --> Netlify
-        run: npm run deploy:netlify ${{ secrets.NETLIFY_AUTH_TOKEN }} ${{ secrets.NETLIFY_SITE_ID }}
+        run: netlify deploy --prod --auth ${{ secrets.NETLIFY_AUTH_TOKEN }} --site ${{ secrets.NETLIFY_SITE_ID }}
 
   PR-Management:
     needs: QA-deploy
