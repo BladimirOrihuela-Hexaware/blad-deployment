@@ -1,0 +1,60 @@
+name: Deploy app to github pages
+
+on:
+  pull_request:
+    branches: ["main"]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  QA-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: CI=false npm run build
+
+      - name: Run test
+        run: npm run test
+
+      - name: ECHO BRANCH NAME
+        run: echo ${{ env.BRANCH_NAME }}
+
+      - name: List all
+        run: ls
+
+      # Sets the branch name as environment variable
+      - uses: nelonoel/branch-name@v1.0.1
+      - uses: jsmrcaga/action-netlify-deploy@master
+        with:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          deploy_alias: ${{ env.BRANCH_NAME }}
+
+        # Creates a status check with link to preview
+      - name: Status check
+        uses: Sibz/github-status-action@v1.1.1
+        with:
+          authToken: ${{ secrets.GITHUB_TOKEN }}
+          context: Netlify preview
+          state: success
+          target_url: https://${{ env.BRANCH_NAME }}--my-site.netlify.app
