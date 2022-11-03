@@ -36,16 +36,14 @@ jobs:
       - name: Run test
         run: npm run test
 
-      - name: ECHO BRANCH NAME
-        run: echo ${{ env.BRANCH_NAME }}
-
       # Sets the branch name as environment variable
       - uses: nelonoel/branch-name@v1.0.1
-      - uses: jsmrcaga/action-netlify-deploy@master
+      - name: deploy to netlify
+        id: deploy-netlify
+        uses: jsmrcaga/action-netlify-deploy@master
         with:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          deploy_alias: ${{ env.BRANCH_NAME }}
 
         # Creates a status check with link to preview
       - name: Status check
@@ -54,4 +52,5 @@ jobs:
           authToken: ${{ secrets.GITHUB_TOKEN }}
           context: Netlify preview
           state: success
-          target_url: https://${{ env.BRANCH_NAME }}--my-site.netlify.app
+      - name: print url
+        run: echo ${{ steps.deploy-netlify.outputs.NETLIFY_LIVE_URL }}

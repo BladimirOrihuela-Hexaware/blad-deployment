@@ -24,24 +24,18 @@ jobs:
       # - name: Test coverage
       #   run: npm run test
 
-      # - name: Use action
-      #   id: get-branch
-      #   uses: ypicard/get-branch-name-github-action@v1
-
-      # - name: Display formated branch name
-      #   run: echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
+      - name: Use action
+        id: get-branch
+        uses: ypicard/get-branch-name-github-action@v1
 
       # - name: Set env
       #   id: set-branch-name
       #   run: echo "My_Branch=$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')" >> $GITHUB_OUTPUT
 
-      # - name: get env name
-      #   run: echo $My_Branch
-
       - name: Create PR
         uses: medlypharmacy/create-pr-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_BRANCH: test-pipeline
+          HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }}
           # HEAD_BRANCH: ${{ steps.set-branch-name.outputs.My_Branch }}
           BASE_BRANCH: main
