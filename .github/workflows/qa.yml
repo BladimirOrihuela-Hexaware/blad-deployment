@@ -64,7 +64,9 @@ jobs:
         run: CI=false npm run build
 
       - name: deploy to QA env --> Netlify
-        run: netlify deploy --prod --auth TvSn2ki9oV2tPk5OsOSbLa3WIaHzpBx9UFbiXg94FaI --site 5b9c80b4-ce4b-44a7-b2f1-287f78253288
+        environment:
+          name: QA
+        run: netlify deploy --prod --auth ${{ secrets.NETLIFY_TOKEN }} --site ${{ secrets.SITE_ID }}
 
   PR-Management:
     needs: QA-deploy
