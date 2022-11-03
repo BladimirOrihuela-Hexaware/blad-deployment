@@ -15,32 +15,33 @@ jobs:
         with:
           node-version: "16"
 
-      - name: Install Dependencies
-        run: npm install
+      # - name: Install Dependencies
+      #   run: npm install
 
-      - name: Test Lint
-        run: npm run lint
+      # - name: Test Lint
+      #   run: npm run lint
 
-      - name: Test coverage
-        run: npm run test
+      # - name: Test coverage
+      #   run: npm run test
 
-      - name: Use action
-        id: get-branch
-        uses: ypicard/get-branch-name-github-action@v1
+      # - name: Use action
+      #   id: get-branch
+      #   uses: ypicard/get-branch-name-github-action@v1
 
-      - name: Display formated branch name
-        run: echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
+      # - name: Display formated branch name
+      #   run: echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
 
-      - name: Set env
-        id: set-branch-name
-        run: echo "My_Branch=$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')" >> $GITHUB_OUTPUT
+      # - name: Set env
+      #   id: set-branch-name
+      #   run: echo "My_Branch=$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')" >> $GITHUB_OUTPUT
 
-      - name: get env name
-        run: echo $My_Branch
+      # - name: get env name
+      #   run: echo $My_Branch
 
       - name: Create PR
         uses: medlypharmacy/create-pr-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_BRANCH: ${{ steps.set-branch-name.outputs.My_Branch }}
+          HEAD_BRANCH: develop
+          # HEAD_BRANCH: ${{ steps.set-branch-name.outputs.My_Branch }}
           BASE_BRANCH: main
