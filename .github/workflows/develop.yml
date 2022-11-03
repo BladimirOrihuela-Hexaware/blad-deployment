@@ -31,9 +31,12 @@ jobs:
       - name: Display formated branch name
         run: echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
 
+      - name: Display branch name using env
+        run: echo ${{ env.BRANCH_NAME }}
+
       - name: Create PR
         uses: medlypharmacy/create-pr-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
+          HEAD_BRANCH: ${{ steps.get-branch.outputs.branch | sed 's/^[^\/]\+\///'}}
           BASE_BRANCH: main
