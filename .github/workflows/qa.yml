@@ -2,10 +2,16 @@ name: Deploy to QA env
 
 on:
   pull_request:
-    branches: ["main"]
+  push:
+    branches-ignore:
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+
+#Sets environment var CI to false to prevent error from warnings
+env:
+  CI: false
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
@@ -19,7 +25,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  QA-deploy:
+  Validate-Dev-Changes:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -30,28 +36,49 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build
-        run: CI=false npm run build
+      - name: Test Lint
+        run: npm run lint
+
+      - name: Test coverage
+        run: npm run test
+
+  QA-deploy:
+    needs: Validate-Dev-Changes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install Dependencies
+        run: npm install
 
       - name: Run test
         run: npm run test
 
-      - name: ECHO BRANCH NAME
-        run: echo ${{ env.BRANCH_NAME }}
+      - name: Build
+        run: CI=false npm run build
 
-      # Sets the branch name as environment variable
-      - uses: nelonoel/branch-name@v1.0.1
-      - uses: jsmrcaga/action-netlify-deploy@master
-        with:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          deploy_alias: ${{ env.BRANCH_NAME }}
+      - name: deploy to QA env --> Netlify
+        run: npm run deploy:netlify
 
-        # Creates a status check with link to preview
-      - name: Status check
-        uses: Sibz/github-status-action@v1.1.1
+  PR-Management:
+    needs: QA-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          authToken: ${{ secrets.GITHUB_TOKEN }}
-          context: Netlify preview
-          state: success
-          target_url: https://${{ env.BRANCH_NAME }}--my-site.netlify.app
+          node-version: "16"
+
+      - name: Use action
+        id: get-branch
+        uses: ypicard/get-branch-name-github-action@v1
+
+      - name: Create PR
+        uses: medlypharmacy/create-pr-action@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }}
+          BASE_BRANCH: main
