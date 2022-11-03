@@ -1,4 +1,4 @@
-name: Deploy app to github pages
+name: Deploy to QA env
 
 on:
   pull_request:
@@ -38,9 +38,6 @@ jobs:
 
       - name: ECHO BRANCH NAME
         run: echo ${{ env.BRANCH_NAME }}
-
-      - name: List all
-        run: ls
 
       # Sets the branch name as environment variable
       - uses: nelonoel/branch-name@v1.0.1

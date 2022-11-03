@@ -6,7 +6,7 @@
 echo -e "===\n>> Talenavi Pre-push Hook: Checking branch name"
 
 BRANCH=`git rev-parse --abbrev-ref HEAD`
-PROTECTED_BRANCHES="^(main|develop)"
+PROTECTED_BRANCHES="^(main)"
 
 if [[ "$BRANCH" =~ $PROTECTED_BRANCHES ]]
 then
