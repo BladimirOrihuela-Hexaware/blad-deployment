@@ -33,9 +33,7 @@ jobs:
 
       - name: Set env
         id: set-branch-name
-        run: >-
-          echo "::set-output name=My_Branch::$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')"
-        # run: echo "My_Branch=$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')" >> $GITHUB_ENV
+        run: echo "My_Branch=$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')" >> $GITHUB_OUTPUT
 
       - name: get env name
         run: echo $My_Branch
