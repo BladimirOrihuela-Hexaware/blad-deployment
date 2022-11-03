@@ -38,20 +38,20 @@ jobs:
       #   run: npm run test
 
       # Sets the branch name as environment variable
-      - uses: nelonoel/branch-name@v1.0.1
-      - name: deploy to netlify
-        id: deploy-netlify
-        uses: jsmrcaga/action-netlify-deploy@master
-        with:
-          NETLIFY_AUTH_TOKEN: TvSn2ki9oV2tPk5OsOSbLa3WIaHzpBx9UFbiXg94FaI
-          NETLIFY_SITE_ID: 5b9c80b4-ce4b-44a7-b2f1-287f78253288
+      # - uses: nelonoel/branch-name@v1.0.1
+      # - name: deploy to netlify
+      #   id: deploy-netlify
+      #   uses: jsmrcaga/action-netlify-deploy@master
+      #   with:
+      #     NETLIFY_AUTH_TOKEN: TvSn2ki9oV2tPk5OsOSbLa3WIaHzpBx9UFbiXg94FaI
+      #     NETLIFY_SITE_ID: 5b9c80b4-ce4b-44a7-b2f1-287f78253288
 
-        # Creates a status check with link to preview
-      - name: Status check
-        uses: Sibz/github-status-action@v1.1.1
-        with:
-          authToken: ${{ secrets.GITHUB_TOKEN }}
-          context: Netlify preview
-          state: success
-      - name: print url
-        run: echo ${{ steps.deploy-netlify.outputs.NETLIFY_LIVE_URL }}
+      #   # Creates a status check with link to preview
+      # - name: Status check
+      #   uses: Sibz/github-status-action@v1.1.1
+      #   with:
+      #     authToken: ${{ secrets.GITHUB_TOKEN }}
+      #     context: Netlify preview
+      #     state: success
+      # - name: print url
+      #   run: echo ${{ steps.deploy-netlify.outputs.NETLIFY_LIVE_URL }}
