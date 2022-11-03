@@ -81,10 +81,12 @@ jobs:
         id: get-branch
         uses: ypicard/get-branch-name-github-action@v1
 
+      - name: Display formated branch name
+        run: echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
+
       - name: Create PR
         uses: medlypharmacy/create-pr-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }}
-          HEAD_BRANCH: test-dev-qa-pipeline
+          HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
           BASE_BRANCH: main
