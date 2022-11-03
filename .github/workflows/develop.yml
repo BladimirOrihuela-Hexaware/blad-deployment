@@ -38,5 +38,5 @@ jobs:
         uses: medlypharmacy/create-pr-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_BRANCH: ${{ steps.get-branch.outputs.branch | sed 's/^[^\/]\+\///'}}
+          HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }}
           BASE_BRANCH: main
