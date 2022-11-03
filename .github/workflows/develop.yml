@@ -32,10 +32,10 @@ jobs:
       #   id: set-branch-name
       #   run: echo "My_Branch=$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')" >> $GITHUB_OUTPUT
 
-      - name: Create PR
-        uses: medlypharmacy/create-pr-action@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }}
-          # HEAD_BRANCH: ${{ steps.set-branch-name.outputs.My_Branch }}
-          BASE_BRANCH: main
+      # - name: Create PR
+      #   uses: medlypharmacy/create-pr-action@main
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     HEAD_BRANCH: ${{ steps.get-branch.outputs.branch }}
+      #     # HEAD_BRANCH: ${{ steps.set-branch-name.outputs.My_Branch }}
+      #     BASE_BRANCH: main
