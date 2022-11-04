@@ -25,22 +25,22 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  Validate-Dev-Changes:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
+  # Validate-Dev-Changes:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "16"
 
-      - name: Install Dependencies
-        run: npm install
+  #     - name: Install Dependencies
+  #       run: npm install
 
-      - name: Test Lint
-        run: npm run lint
+  #     - name: Test Lint
+  #       run: npm run lint
 
-      - name: Test coverage
-        run: npm run test
+  #     - name: Test coverage
+  #       run: npm run test
 
   QA-deploy:
     needs: Validate-Dev-Changes
@@ -68,21 +68,21 @@ jobs:
       - name: deploy to QA env --> Netlify
         run: netlify deploy --prod --auth ${{ secrets.NETLIFY_TOKEN }} --site ${{ secrets.SITE_ID }}
 
-  PR-Management:
-    needs: QA-deploy
-    runs-on: ubuntu-latest
-    permissions: write-all
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
+  # PR-Management:
+  #   needs: QA-deploy
+  #   runs-on: ubuntu-latest
+  #   permissions: write-all
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: "16"
 
-      - name: Get Branch Name
-        id: get-branch
-        uses: ypicard/get-branch-name-github-action@v1
+  #     - name: Get Branch Name
+  #       id: get-branch
+  #       uses: ypicard/get-branch-name-github-action@v1
 
-      - name: pull-request
-        run: gh pr create --base main --head ${{ steps.get-branch.outputs.branch }} --title "Pulling ${{ steps.get-branch.outputs.branch }} into main" --body "Automated PR"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     - name: pull-request
+  #       run: gh pr create --base main --head ${{ steps.get-branch.outputs.branch }} --title "Pulling ${{ steps.get-branch.outputs.branch }} into main" --body "Automated PR"
+  #       env:
+  #         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
