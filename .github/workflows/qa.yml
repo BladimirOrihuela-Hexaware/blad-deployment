@@ -89,12 +89,4 @@ jobs:
         run: echo $My_Branch
 
       - name: pull-request
-        uses: repo-sync/pull-request@v2
-        with:
-          destination_branch: "main" # If blank, default: master
-          pr_title: "Pulling ${{ steps.get-branch.outputs.branch }} into main" # Title of pull request
-          pr_body: ":crown: *An automated PR*" # Full markdown support, requires pr_title to be set
-          pr_label: "auto-pr" # Comma-separated list (no spaces)
-          pr_draft: true # Creates pull request as draft
-          pr_allow_empty: true # Creates pull request even if there are no changes
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        run: "hub pull-request   -b main   -h test-pr-creation   --no-edit   -m 'Pulling test-pr-creation into main' -m ':crown: *An automated PR*' -l 'auto-pr' -d   || true"
