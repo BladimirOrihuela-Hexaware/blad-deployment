@@ -43,7 +43,7 @@ jobs:
   #       run: npm run test
 
   QA-deploy:
-    needs: Validate-Dev-Changes
+    # needs: Validate-Dev-Changes
     environment:
       name: QA
     runs-on: ubuntu-latest
