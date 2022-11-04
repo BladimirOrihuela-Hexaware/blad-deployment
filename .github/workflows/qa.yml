@@ -82,6 +82,6 @@ jobs:
         uses: ypicard/get-branch-name-github-action@v1
 
       - name: pull-request
-        run: "gh pr create --base main --head ${{ steps.get-branch.outputs.branch }} --title "Pulling ${{ steps.get-branch.outputs.branch }} into main" --body "Automated PR" "
+        run: gh pr create --base main --head ${{ steps.get-branch.outputs.branch }} --title "Pulling ${{ steps.get-branch.outputs.branch }} into main" --body "Automated PR"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
