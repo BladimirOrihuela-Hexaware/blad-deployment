@@ -91,9 +91,7 @@ jobs:
       - name: get env name
         run: echo $My_Branch
 
-      - name: Create PR
-        uses: medlypharmacy/create-pr-action@main
+      - name: create pull request
+        run: gh pr create -B main -H ${{ steps.get-branch.outputs.branch }} --title 'Merge ${{ steps.get-branch.outputs.branch }} into main' --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          HEAD_BRANCH: ${{ steps.set-branch-name.outputs.My_Branch }}
-          BASE_BRANCH: main
