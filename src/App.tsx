@@ -7,14 +7,15 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>This is a test page</p>
+        <p>💚 Remove innecesary scripts</p>
+        <p>✏️ Update netlify page name</p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://github.com/BladimirOrihuela-Hexaware/blad-deployment"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Checkout the repo
         </a>
       </header>
     </div>
