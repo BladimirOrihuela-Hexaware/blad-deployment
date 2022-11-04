@@ -81,9 +81,6 @@ jobs:
         id: get-branch
         uses: ypicard/get-branch-name-github-action@v1
 
-      - name: Display formated branch name
-        run: echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///'
-
       - name: Set env
         id: set-branch-name
         run: echo "My_Branch=$(echo ${{ steps.get-branch.outputs.branch }} | sed 's/^[^\/]\+\///')" >> $GITHUB_OUTPUT
@@ -91,7 +88,15 @@ jobs:
       - name: get env name
         run: echo $My_Branch
 
-      - name: create pull request
-        run: gh pr create -B main -H ${{ steps.get-branch.outputs.branch }} --title 'Merge ${{ steps.get-branch.outputs.branch }} into main' --body 'Created by Github action'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          destination_branch: "main" # If blank, default: master
+          pr_title: "Pulling ${{ steps.get-branch.outputs.branch }} into main" # Title of pull request
+          pr_body: ":crown: *An automated PR*" # Full markdown support, requires pr_title to be set
+          pr_template: ".github/PULL_REQUEST_TEMPLATE.md" # Path to pull request template, requires pr_title to be set, excludes pr_body
+          pr_label: "auto-pr" # Comma-separated list (no spaces)
+          pr_milestone: "Milestone 1" # Milestone name
+          pr_draft: true # Creates pull request as draft
+          pr_allow_empty: true # Creates pull request even if there are no changes
+          github_token: ${{ secrets.GITHUB_TOKEN }}
