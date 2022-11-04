@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>💚 Remove innecesary scripts</p>
+        <p>💚 Remove unnecessary scripts</p>
         <p>✏️ Update netlify page name</p>
         <a
           className="App-link"
