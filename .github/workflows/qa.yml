@@ -71,6 +71,7 @@ jobs:
   PR-Management:
     # needs: QA-deploy
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
