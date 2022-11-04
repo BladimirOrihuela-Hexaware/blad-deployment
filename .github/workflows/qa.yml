@@ -89,4 +89,4 @@ jobs:
         run: echo $My_Branch
 
       - name: pull-request
-        run: "hub pull-request   -b main   -h test-pr-creation   --no-edit   -m 'Pulling test-pr-creation into main' -m ':crown: *An automated PR*' -l 'auto-pr' -d   || true"
+        run: "gh pr create --base main --head ${{ steps.get-branch.outputs.branch }}"
