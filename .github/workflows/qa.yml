@@ -89,4 +89,6 @@ jobs:
         run: echo $My_Branch
 
       - name: pull-request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: "gh pr create --base main --head ${{ steps.get-branch.outputs.branch }}"
